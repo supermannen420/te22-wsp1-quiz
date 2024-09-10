@@ -8,7 +8,7 @@ nunjucks.configure("views", {
 app.use(express.static("public"))
 app.get("/", (request, response) => {
   response.render("index.njk", {
-    message: "Hemsidan!",
+    message: "Hemsidan nunjuckad och klar weee!",
     title: "Hem",
   })
 })
@@ -19,6 +19,16 @@ app.get("/om", (request, response) => {
   })
 })
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000")
+
+app.get("/readme", (request, response) => {
+  console.log(request)
+  response.json({
+    message: "Hello World",
+  })
+})
+
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`)
 })
