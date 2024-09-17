@@ -127,3 +127,64 @@ Notera att du även kan skapa statisa html filer i public mappen och använda de
 ## Nunjucks
 
 Nunjucks är ett templating språk som används för att skapa dynamiska html sidor. 
+
+Installera nunjucks genom att köra:
+
+```bash
+npm install nunjucks
+```
+
+För att använda nunjucks i express så behöver vi konfigurera express att använda nunjucks som view engine.
+
+```js
+import express from "express"
+import nunjucks from "nunjucks"
+const app = express()
+nunjucks.configure("views", {
+  autoescape: true,
+  express: app
+})
+
+app.get("/", (request, response) => {
+  response.render("index.njk", { message: "Hello World!" })
+})
+```
+
+Nu kan vi skapa en mapp som heter `views` och i `views` mappen skapar vi en fil som heter `index.njk`.
+
+```html
+<body>
+  <h1>{{ message }}</h1>  
+</body>
+```
+
+## Query parametrar
+
+För att skicka data till servern så kan vi använda query parametrar. Query parametrar skickas i URL:en och kan användas för att skicka data till servern.
+
+```js
+app.get("/search", (request, response) => {
+  const query = request.query.q
+  response.send(`You searched for: ${query}`)
+})
+```
+
+För att skicka en query parameter så skriver du `?` efter URL:en och sedan namnet på query parametern och värdet.
+
+```
+http://localhost:3000/search?q=hello
+```
+
+Vi kan sedan skapa en sök ruta i vår nunjucks fil.
+
+```html
+<form action="/search" method="GET">
+  <input type="text" name="q">
+  <button type="submit">Search</button>
+</form>
+```
+
+Kom ihåg att query parametrar är synliga i URL:en och ska inte användas för att skicka känslig data. Det är även viktigt att validera data som skickas från användaren.
+
+**Lita aldrig på data som skickas från användaren!**
+
