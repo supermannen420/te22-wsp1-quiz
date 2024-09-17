@@ -188,3 +188,82 @@ Kom ihåg att query parametrar är synliga i URL:en och ska inte användas för 
 
 **Lita aldrig på data som skickas från användaren!**
 
+## Logging
+
+För att logga fel så kan vi använda ett paket som heter `morgan`. Morgan är ett middleware som används för att logga request och response.
+
+Installera morgan genom att köra:
+
+```bash
+npm install morgan
+```
+
+För att använda morgan så lägger vi till följande kod i vår server fil.
+
+```js
+import morgan from "morgan"
+app.use(morgan("dev"))
+```
+
+Nu loggas alla request och response i konsolen.
+
+## Datastrukturer, objekt och json
+
+För att simulera en databas så kommer vi att använda oss av en array med objekt. Vi kommer att skapa en array med objekt som innehåller information om filmer.
+
+```js
+const movies = [
+  {
+    id: 1,
+    title: "The Matrix",
+    year: 1999
+  },
+  {
+    id: 2,
+    title: "Inception",
+    year: 2010
+  }
+]
+```
+
+För att skicka data från servern så kan vi använda `response.json()` metoden. En route för att hämta samtliga filmer kan se ut så här.
+
+```js
+app.get("/movies", (request, response) => {
+  response.json(movies)
+})
+```
+
+För att hämta en specifik film så kan vi använda `request.params` för att hämta id:t på filmen.
+
+```js
+app.get("/movies/:id", (request, response) => {
+  const id = request.params.id
+  const movie = movies.find(movie => movie.id === Number(id))
+  response.json(movie)
+})
+```
+
+## Middleware
+
+Middleware är funktioner som körs innan eller efter en route. Middleware används för att utföra uppgifter som att logga request och response, validera data, autentisera användare och mycket mer.
+
+För att skapa en middleware så skapar vi en funktion som tar tre parametrar, `request`, `response` och `next`. `next` är en funktion som används för att fortsätta till nästa middleware eller route.
+
+För att skapa en 404 middleware så kan vi skapa en funktion som ser ut så här.
+
+```js
+function notFound(request, response, next) {
+  response.status(404)
+  response.send("404 Not Found")
+}
+```
+
+För att använda en middleware så lägger vi till den i vår express app med `app.use()` metoden.
+
+```js
+app.use(notFound)
+```
+
+Nu kommer `notFound` middleware att köras om ingen route matchar.
+
