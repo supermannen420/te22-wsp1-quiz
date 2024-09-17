@@ -73,12 +73,12 @@ Installera Nodemon genom att köra:
 npm install nodemon --save-dev
 ```
 
-Lägg till ett script i `package.json` för att starta servern med Nodemon. Lägg till `"start": "nodemon server.js"` i `scripts` i `package.json` så att det ser ut så här:
+Lägg till ett script i `package.json` för att starta servern med Nodemon. Lägg till `"dev": "nodemon server.js"` i `scripts` i `package.json` så att det ser ut så här (vi ser även till att nodemon lyssnar efter ändringar i njk filer):
 
 ```json
 {
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon -e js,html,njk,json,css ./server.js"
   }
 }
 ```
@@ -88,6 +88,8 @@ Lägg till ett script i `package.json` för att starta servern med Nodemon. Läg
 
 Vi skapade en express server med lite start kod. Vi skapade en route och prova att lägga in statiskt innehåll.
 
+Koden nedan är en start du kan använda i de flesta express projekt. 
+
 ```js
 import express from "express" // ESM
 const app = express()
@@ -95,13 +97,33 @@ app.use(express.static ("public"))
 app.get("/", (request, response) => {
   response.send("Jepp, det funkar!")
 })
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000")
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`)
 })
 ```
 
-För att skicka statiska filer så används en mapp som heter public. I public mappen lägger vi våra filer som ska skickas.
+### Statiska filer med public mapp
 
+För att skicka statiska filer så används en mapp som heter public. I public mappen lägger vi våra filer som ska skickas. Det kan tillexempel vara `css`, `js` och `img` filer.
 
+För att testa detta så skapa en ny mapp som heter `public`, i `public` mappen skapar du sedan en fil som heter `style.css` och lägger till lite css kod.
+
+```css
+body {
+  font-size: 1.2rem;
+  font-family: sans-serif;
+}
+```
+
+För att använda css filen i din html fil så lägger du till en länk i head taggen.
+
+```html
+<link rel="stylesheet" href="/style.css">
+```
+
+Notera att du även kan skapa statisa html filer i public mappen och använda dem i din express server.
 
 ## Nunjucks
+
+Nunjucks är ett templating språk som används för att skapa dynamiska html sidor. 
