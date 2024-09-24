@@ -267,3 +267,36 @@ app.use(notFound)
 
 Nu kommer `notFound` middleware att köras om ingen route matchar.
 
+## Routes
+
+Routes används för att skapa olika endpoints i din express app. En route består av en HTTP metod och en URL. En endpoint är en URL som används för att skicka eller hämta data från servern.
+
+För att skapa en route så använder vi `app.get()` eller mer specifikt så använder vi express router för att skapa en route.
+
+För att separera routes från vår server fil så kan vi skapa nya filer för våra routes i en mapp som heter `routes`.
+
+För att samla våra index routes så kan vi skapa en fil som heter `index.js` i `routes` mappen.
+
+Skapa en mapp som heter `routes` med `mkdir`. Skapa en fil som heter `index.js` i `routes` mappen och lägg till följande kod.
+
+```js
+import express from "express"
+const router = express.Router()
+
+router.get("/", (request, response) => {
+  response.send("Hello from index route")
+})
+
+export default router
+```
+
+När vi har routes i separata filer så måste vi i routes filen importera express och skapa en router med `express.Router()`.
+Vi exporterar sedan router objektet med `export default router`.
+
+För att använda routes i vår server fil så importerar vi routes filen och använder `app.use()` metoden för att använda routern.
+
+```js
+import indexRouter from "./routes/index.js"
+
+app.use("/", indexRouter)
+```
