@@ -300,3 +300,5 @@ import indexRouter from "./routes/index.js"
 
 app.use("/", indexRouter)
 ```
+
+## POST route
