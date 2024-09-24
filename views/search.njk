@@ -1,0 +1,21 @@
+{% extends "layout.njk" %}
+{% block content %}
+<main class="container">
+  <h1>{{ title }}</h1>
+  <form action="/search" method="get">
+    <input type="text"
+      name="q">
+    <button type="submit">Search</button>
+  </form>
+  <p>Du sökte efter {{ query }}</p>
+  {% if names and query %}
+    <ul>
+      {% for name in names %}
+        <li>{{ name }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Inga resultat</p>
+  {% endif %}
+</main>
+{% endblock %}
