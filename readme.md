@@ -301,4 +301,87 @@ import indexRouter from "./routes/index.js"
 app.use("/", indexRouter)
 ```
 
+## Search route
+
+Vi skapade en sökruta som skickar data till servern med en query parameter. Vi skapade en route som tar emot query parametern och skickar tillbaka en respons.
+
+```js
+app.get("/search", (request, response) => {
+  const query = request.query.q
+  response.send(`You searched for: ${query}`)
+})
+```
+
+Vi skapade även en sökruta i vår nunjucks fil.
+
+```html
+<form action="/search" method="GET">
+  <input type="text" name="q">
+  <button type="submit">Search</button>
+</form>
+```
+
+Vi kan utöka det med att faktiskt söka.
+Vi skapade en sökning i en array med filter metoden.
+Här är ett exempel där vi söker efter filmer som innehåller söksträngen.
+Filmerna är en array med objekt som innehåller titel och år. Den ser ut som följande:
+
+```js
+const movies = [
+  {
+    title: "The Matrix",
+    year: 1999
+  },
+  {
+    title: "Inception",
+    year: 2010
+  }
+]
+```
+
+```js
+app.get("/search", (request, response) => {
+  const query = request.query.q
+  const results = movies.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase()))
+  response.render("search.njk", { results })
+})
+```
+
+Testa!
+
 ## POST route
+
+För att skicka data till servern så kan vi använda en POST route. En POST route används för att skicka data till servern. Vi kan skapa en POST route med `app.post()` metoden.
+
+För att skapa en POST route så skapar vi en form i vår nunjucks fil som skickar data till servern med en POST request.
+
+```html
+<form action="/movies" method="POST">
+  <input type="text" name="title">
+  <input type="number" name="year">
+  <button type="submit">Add Movie</button>
+</form>
+
+```
+
+Vi skapar en POST route som tar emot data från formuläret och lägger till filmen i vår array med filmer.
+
+```js
+app.post("/movies", (request, response) => {
+  const title = request.body.title
+  const year = request.body.year
+  const id = movies.length + 1
+  const movie = { id, title, year }
+  movies.push(movie)
+  response.redirect("/movies")
+})
+```
+
+För att använda `request.body` så behöver vi använda ett middleware som heter `express.json()`. `express.json()` används för att tolka JSON data som skickas från klienten.
+
+För att använda `express.json()` så lägger vi till det i vår express app, redigera `server.js` och lägg till följande kod.
+
+```js
+app.use(express.json())
+```
+
