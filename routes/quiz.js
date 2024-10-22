@@ -31,14 +31,30 @@ router.get("/questions", (req, res) => {
 
 router.post("/end", (req, res) => {
   const answers = req.body
-  console.log(answers)  
-  questions.forEach(question => {
+  console.log(answers)
+  const result = questions.map(question => {
     const answer = answers[question.id]
-    if (answer == question.correctAnswer) {
-      console.log("Du har svarat rätt på fråga : ", question.id)
+    return {
+      question: question.text,
+      answer,
+      correct: answer == question.correctAnswer
     }
   })
-  res.json(answers)
+
+
+
+  // questions.forEach(question => {
+  //   const answer = answers[question.id]
+  //   if (answer == question.correctAnswer) {
+  //     console.log("Du har svarat rätt på fråga : ", question.id)
+  //   }
+  // })
+  res.render("result.njk", {
+    message: "Ditt resultat",
+    result
+    
+
+  })
 })
 // rad 4 , 18, 19 i server.js
 

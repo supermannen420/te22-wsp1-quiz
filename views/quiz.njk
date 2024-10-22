@@ -1,5 +1,46 @@
 {% extends "layout.njk" %}
 {% block content %}
   <h1>{{message}}</h1>
-  <p><a href="/quiz/questions">Starta Quizzet</a></p>
+
+  <div class="ja">
+    <p><a href="/quiz/questions">Starta Quizzet</a></p>
+  </div>
+
+
+  <style>
+
+    html{
+      background-color: rgb(33, 33, 33);
+    }
+
+    h1{
+      color: white;
+      text-align: center;
+    }
+
+    .ja{
+      text-align: center;
+    }
+
+    p{
+      text-align: center;
+      border: solid;
+      border-color: white;
+      background-color: rgb(33, 33, 33);
+      border-radius: 25px;
+      display: inline-block;
+      padding: 10px;
+      
+    }
+
+    a{
+      color: white;
+    }
+   
+
+   
+
+  </style>
+
+
 {% endblock %}

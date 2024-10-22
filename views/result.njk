@@ -1,0 +1,83 @@
+{% extends "layout.njk" %}
+{% block content %}
+<main class="container">
+  <h1>{{ message }}</h1>
+
+
+      {% for item in result %}
+        <h2><strong>{{ item.question }}</strong> </h2>
+      
+
+        {% if item.correct == true %}
+            <h3>Du svarade rätt!</h3>
+        {% else %}
+            <h3>Du svarade fel!</h3>
+        {% endif %}
+
+        {% endfor %}
+
+
+    <div>
+        <p><a href="/quiz/">Gör quizzet igen</a></p>
+    </div>
+</main>
+
+<style>
+
+
+    html{
+        background-color: rgb(33, 33, 33);
+        
+    }
+
+    h1{
+        text-align: center;
+        color: white;
+    }
+
+    h2{
+        border: solid;
+        border-radius: 25px;
+        display: inline-block;
+        padding: 10px;
+        color: white;
+    }
+
+    h3{
+        
+    }
+
+
+    li{
+        text-align: left;
+        padding-bottom: 25px;
+        color: white;
+    }
+
+    a{
+        color: white;
+    }
+    p{
+        text-align: right;
+        padding-right: 20px;
+        display: inline-block;
+        border: solid;
+        border-radius: 50px;
+        padding: 10px 20px;
+        margin-left: auto;
+        color: white;
+
+        background-color: rgb(33, 33, 33);
+        border-color:   white(73, 73, 73);
+        
+    }
+
+    main{
+        padding: 20px;
+        text-align: center;
+        
+        
+        color: white;
+    }
+</style>
+{% endblock %}
